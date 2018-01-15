@@ -15,8 +15,6 @@
 <script>
   import words  from 'data/words';
 
-  const TIME_GAP = 2000;
-
     export default {
         name: 'word-cards',
         data() {
