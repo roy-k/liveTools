@@ -2,13 +2,15 @@
     <div>
       <h1>wordCards</h1>
       <hr/>
-      <ul>
-        <li v-for="word in words">
-          <p>{{word.low}}</p>
-          <p>{{word.cap}}</p>
-          <p>{{word.pronunciation}}</p>
-        </li>
-      </ul>
+      <div class="con">
+        <ul>
+          <li v-for="word in words">
+            <p>{{word.low}}</p>
+            <p>{{word.cap}}</p>
+            <p>{{word.pronunciation}}</p>
+          </li>
+        </ul>
+      </div>
     </div>
 </template>
 
@@ -45,9 +47,14 @@
   h1, h2 {
     font-weight: normal;
   }
+  .con {
+
+  }
   ul {
     list-style-type: none;
     padding: 0;
+    width: 190px;
+    margin: 0 auto;
   }
   li {
     display: inline-block;

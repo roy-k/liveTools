@@ -12,6 +12,9 @@ export default {
 </script>
 
 <style>
+  body {
+    background-image: radial-gradient(at top right, #B7B6BB 0%, #E8EAE9 100%);
+  }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -19,5 +22,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+
 }
 </style>

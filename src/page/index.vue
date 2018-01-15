@@ -2,11 +2,12 @@
     <div>
       <h1>目录</h1>
       <hr/>
-      <ul>
-        <li v-for="router in routers">
+        <ul>
+          <li v-for="router in routers">
             <router-link to="japanese/wordCards">wordCards</router-link>
-        </li>
-      </ul>
+          </li>
+        </ul>
+
     </div>
 </template>
 
@@ -33,9 +34,14 @@
   h1, h2 {
     font-weight: normal;
   }
+  .con {
+
+  }
   ul {
     list-style-type: none;
     padding: 0;
+    width: 90px;
+    margin: 0 auto;
   }
   li {
     display: inline-block;
