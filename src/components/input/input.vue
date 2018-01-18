@@ -1,18 +1,21 @@
 <template>
-    <div>
-        <input type="text"
-               :name="name"
-               :placeholder="placeholder"
-               :readonly="readonly"
-               :maxlength="maxlength"
-               :autofocus="autofocus"
-               :value="currentValue"
-               ref="input"
-               @input="handleInput"
-               @focus="handleFocus"
-               @blur="handleBlur"
-               @keyup.13="confirm"
-        >
+    <div style="text-align:right;">
+        <div class="input-label">{{label}}</div>
+        <div class="input-area" :style="{'width': wid + 'px'}">
+            <input type="text"
+                   :name="name"
+                   :placeholder="placeholder"
+                   :readonly="readonly"
+                   :maxlength="maxlength"
+                   :autofocus="autofocus"
+                   :value="currentValue"
+                   ref="input"
+                   @input="handleInput"
+                   @focus="handleFocus"
+                   @blur="handleBlur"
+                   @keyup.13="confirm"
+            >
+        </div>
     </div>
 </template>
 <script>
@@ -43,6 +46,8 @@
                 default: true
             },
             trim: Boolean,
+            label: String,
+            wid: Number,
         },
 
         computed: {
@@ -91,6 +96,10 @@
     };
 </script>
 <style scoped>
+    .input-label, .input-area {
+        display: inline-block;
+        /*vertical-align: top;*/
+    }
     input {
         background-color: #fff;
         border: 1px solid #bfcbd9;

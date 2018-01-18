@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+body {margin:0;padding:0;background:#f0f0f0;font-size:16px;font-family:微软雅黑,Verdana,Geneva,sans-serif;}
+p,h1,h2,h3,h4,ul,li,a,table,tr,td,th,div,b {margin:0;padding:0;}
+table {border-collapse:collapse;}
+input, select {vertical-align:middle;margin:0;padding:0;}
+img {vertical-align:middle;border:0;margin:0;padding:0;}
+a {text-decoration:none;color:#069;outline-style:none;cursor: pointer}
+a:hover {color:#07f;}
+em {font-style:normal;color:#444;}
+
+/*去除抖动*/
+body { margin-left: calc(100vw - 100%); }

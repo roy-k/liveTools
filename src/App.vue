@@ -12,8 +12,19 @@ export default {
 </script>
 
 <style>
+  html {
+      height: 100%;
+  }
   body {
-    background-image: radial-gradient(at top right, #B7B6BB 0%, #E8EAE9 100%);
+    height: 100%;
+      background-color: #ccc;
+    /*background-image: radial-gradient(at top right, #B7B6BB 0%, #E8EAE9 100%);*/
+    /*background-repeat: no-repeat;*/
+  }
+  * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
   }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

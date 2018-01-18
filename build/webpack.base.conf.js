@@ -29,6 +29,7 @@ module.exports = {
       '@': resolve('src'),
       'page': resolve('src/page'),
       'data': resolve('src/data'),
+      'cops': resolve('src/components'),
     }
   },
   module: {

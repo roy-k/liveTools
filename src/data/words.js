@@ -97,7 +97,7 @@ const obj = [
   {
     low: 'つ',
     cap: 'ツ',
-    pronunciation: 'tu',
+    pronunciation: 'tsu',
   },
   {
     low: 'て',
