@@ -1,6 +1,12 @@
 <template>
     <div>
         <!--<h1>lucky wheel</h1>-->
+        <div style="position: absolute; left: 10px; top: 10px">
+            <a href="http://moshou.qq.com/" class="logo_eng"></a>
+        </div>
+        <div style="position: absolute; right: 10px; top: 10px">
+            <a class="clock" title="使用秒表"></a>
+        </div>
         <vue-modal
             v-model="showModal"
             :backdrop="false"
@@ -44,7 +50,7 @@ const awards= [
 
                 OUTSIDE_RADIUAS: 300,   // 转盘的半径
                 INSIDE_RADIUAS: 0,      // 用于非零环绕原则的内圆半径
-                TEXT_RADIUAS: 160,      // 转盘内文字的半径
+                TEXT_RADIUAS: 210,      // 转盘内文字的半径
 
                 POINTER_RADIUAS: 70,
 
@@ -117,7 +123,7 @@ const awards= [
 
                     // ----- ③ 绘制文字
                     context.save();
-                    context.font = 'bold 16px Helvetica, Arial';
+                    context.font = 'bold 25px Helvetica, Arial';
                     context.fillStyle = '#FFF';
                     context.translate(
                         CENTER_X + Math.cos(_startRadian + awardRadian / 2) * TEXT_RADIUAS,
@@ -258,6 +264,22 @@ const awards= [
 </script>
 
 <style scoped>
+    .clock {
+        display: block;
+        width: 70px;
+        height: 70px;
+        background: url(/static/asset/image/clock.png) no-repeat center;
+        background-size: 35px;
+    }
+    .logo_eng {
+        display: block;
+        width: 150px;
+        height: 81px;
+        background: url(/static/asset/image/logo_eng.png) no-repeat;
+    }
+    .modal-mask {
+        align-items: flex-start;
+    }
     .modal-4 {
         /*position: fixed;*/
         border: 1px solid #fff;
@@ -267,7 +289,7 @@ const awards= [
         /*top: 100px;*/
         /*left: 50%;*/
         /*transform: translate(-50%, -50%);*/
-        /*margin-top: -400px;*/
+        margin-top: 50px;
         /*background: hsla(0, 0%, 100%, .01)*/
     }
     h2 {
