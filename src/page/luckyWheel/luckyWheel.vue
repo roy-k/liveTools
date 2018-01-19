@@ -1,28 +1,37 @@
 <template>
     <div>
         <!--<h1>lucky wheel</h1>-->
-        <canvas id="canvas" width="600" height="600">
-            浏览器版本过低, 不支持canvas
-        </canvas>
-
-        <div class="noselect">请使用 空格 / 鼠标点击</div>
-
         <vue-modal
             v-model="showModal"
             :backdrop="false"
         >
             <div class="modal-4">
-                <h2>Congratulations 😊</h2>
-                <h1>{{showWords}}</h1>
-                <a @click="hideModal" class="button red">close</a>
+                <!--<h2>Congratulations 😊</h2>-->
+                <h1>{{showWords}}   😊</h1>
+                <!--<a @click="hideModal" class="button red">close</a>-->
             </div>
         </vue-modal>
+        <canvas id="canvas" width="800" height="800">
+            浏览器版本过低, 不支持canvas
+        </canvas>
+
+        <div class="noselect">请使用 空格 / 鼠标点击</div>
+
+
     </div>
 </template>
 
 <script>
 
-const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保时捷911', '火星7日游']
+// const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保时捷911', '火星7日游'];
+const awards= [
+    {num: 688, prob: 0.15, color: '#FF9E5E'},
+    {num: 188, prob: 0.1,  color: '#ff86b5'},
+    {num: 888, prob: 0.15, color: '#FD5757'},
+    {num: 1888, prob: 0.5, color: '#FF6766'},
+    {num: 388, prob: 0.1,  color: '#ff6e37'},
+    ];
+
 
     export default {
         name: 'lucky-wheel',
@@ -33,17 +42,19 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
                 context: null,
                 showWords: '',
 
-                OUTSIDE_RADIUAS: 200,   // 转盘的半径
+                OUTSIDE_RADIUAS: 300,   // 转盘的半径
                 INSIDE_RADIUAS: 0,      // 用于非零环绕原则的内圆半径
                 TEXT_RADIUAS: 160,      // 转盘内文字的半径
 
-                CENTER_X: 300,  // todo
-                CENTER_Y: 300,
+                POINTER_RADIUAS: 70,
+
+                CENTER_X: 0,  // todo
+                CENTER_Y: 0,
 
                 awards,
 
                 startRadian: 0,
-                awardRadian: (Math.PI * 2) / awards.length,
+                // awardRadian: (Math.PI * 2) / awards.length,
                 // awardRadian: (Math.PI * 2) / 8,
 
                 duration: 30000,     // 旋转事件
@@ -68,6 +79,8 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
                 }
                 this.canvas = canvas;
                 this.context = context;
+                this.CENTER_X = canvas.width / 2;
+                this.CENTER_Y = canvas.height / 2;
                 this.drawRouletteWheel();
 
                 window.addEventListener('keyup', this.eventHandler);
@@ -80,19 +93,21 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
             },
             clear() {},
             drawRouletteWheel() {
-                let {canvas, context, OUTSIDE_RADIUAS, INSIDE_RADIUAS, TEXT_RADIUAS, CENTER_X, CENTER_Y, awards, startRadian, awardRadian, isStop} = this;
+                let {canvas, context, OUTSIDE_RADIUAS, INSIDE_RADIUAS, TEXT_RADIUAS, CENTER_X, CENTER_Y, POINTER_RADIUAS, awards, startRadian, isStop} = this;
+                let _startRadian = startRadian;
                 // ----- ① 清空页面元素，用于逐帧动画
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 // -----
 
                 for (let i = 0; i < awards.length; i ++) {
-                    let _startRadian = startRadian + awardRadian * i,  // 每一个奖项所占的起始弧度
-                        _endRadian =   _startRadian + awardRadian;     // 每一个奖项的终止弧度
+                    let awardRadian = awards[i].prob * 2 * Math.PI;
 
+                    let _endRadian =   _startRadian + awardRadian;     // 每一个奖项的终止弧度
+
+                    // console.log(_startRadian, _endRadian, awardRadian);
                     // ----- ② 使用非零环绕原则，绘制圆盘
                     context.save();
-                    if (i % 2 === 0) context.fillStyle = '#FF6766'
-                    else             context.fillStyle = '#FD5757';
+                    context.fillStyle = awards[i].color;
                     context.beginPath();
                     context.arc(canvas.width / 2, canvas.height / 2, OUTSIDE_RADIUAS, _startRadian, _endRadian, false);
                     context.arc(canvas.width / 2, canvas.height / 2, INSIDE_RADIUAS, _endRadian, _startRadian, true);
@@ -109,8 +124,10 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
                         CENTER_Y + Math.sin(_startRadian + awardRadian / 2) * TEXT_RADIUAS
                     );
                     context.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
-                    context.fillText(awards[i], -context.measureText(awards[i]).width / 2, 0);
+                    context.fillText(awards[i].num, -context.measureText(awards[i].num).width / 2, 0);
                     context.restore();
+
+                    _startRadian += awardRadian;  // 每一个奖项所占的起始弧度
                     // -----
                 }
 
@@ -118,8 +135,8 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
                 context.save();
                 context.beginPath();
                 context.moveTo(CENTER_X, CENTER_Y);
-                context.lineTo(CENTER_X, CENTER_Y - 70);
-                context.lineTo(CENTER_X - 40, CENTER_Y);
+                context.lineTo(CENTER_X, CENTER_Y - POINTER_RADIUAS - 30);
+                context.lineTo(CENTER_X - POINTER_RADIUAS, CENTER_Y);
                 context.closePath();
                 context.fillStyle = '#fff790';
                 context.fill();
@@ -128,8 +145,8 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
                 context.save();
                 context.beginPath();
                 context.moveTo(CENTER_X, CENTER_Y);
-                context.lineTo(CENTER_X, CENTER_Y - 70);
-                context.lineTo(CENTER_X + 40, CENTER_Y);
+                context.lineTo(CENTER_X, CENTER_Y - POINTER_RADIUAS - 30);
+                context.lineTo(CENTER_X + POINTER_RADIUAS, CENTER_Y);
                 context.closePath();
                 context.fillStyle = '#feca65';
                 context.fill();
@@ -137,14 +154,14 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
 
                 context.save();
                 context.beginPath();
-                context.arc(CENTER_X, CENTER_Y, 50,  0, 2 * Math.PI);
+                context.arc(CENTER_X, CENTER_Y, POINTER_RADIUAS,  0, 2 * Math.PI);
                 context.fillStyle = '#fff790';
                 context.fill();
                 context.restore();
 
                 context.save();
                 context.beginPath();
-                context.arc(CENTER_X, CENTER_Y, 40,  0, 2 * Math.PI);
+                context.arc(CENTER_X, CENTER_Y, POINTER_RADIUAS - 15,  0, 2 * Math.PI);
                 context.fillStyle = '#feca65';
                 context.fill();
                 context.restore();
@@ -185,7 +202,7 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
                 return -c / 2 * ((--t) * (t - 2) - 1) + b;
             },
             getValue() {
-                let {startRadian, awardRadian, duration, velocity, spinTotalTime, spinningChange, pointerAngle} = this;
+                let {startRadian, awardRadian, pointerAngle, awards} = this;
                 let startAngle = startRadian * 180 / Math.PI;      // 弧度转换为角度
                 let awardAngle = awardRadian * 180 / Math.PI;
 
@@ -193,13 +210,17 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
                 let overAngle = (startAngle + pointerAngle) % 360;  // 无论转盘旋转了多少圈，产生了多大的任意角，我们只需要求到当前位置起始角在360°范围内的角度值
                 let restAngle = 360 - overAngle;                   // 360°减去已旋转的角度值，就是剩下的角度值
 
-                let index = Math.floor(restAngle / awardAngle);     // 剩下的角度值 除以 每一个奖品的角度值，就能得到这是第几个奖品
-
-                console.log('rest', restAngle);
-                this.showWords = this.awards[index];
-                this.toShowModal();
-                // return this.awards[index];
-
+                let restRadian = restAngle / 360;
+                let sum = 0;
+                for (let i = 0, len = awards.length; i < len; i++) {
+                    let temp = awards[i];
+                    sum += temp.prob;
+                    if(sum >= restRadian) {
+                        this.showWords = temp.num;
+                        this.toShowModal();
+                        return temp.num;
+                    }
+                }
             },
             handle() {
                 if(this.showModal) {
@@ -238,11 +259,15 @@ const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保�
 
 <style scoped>
     .modal-4 {
+        /*position: fixed;*/
         border: 1px solid #fff;
-        padding: 3em;
+        padding: 0 4em;
         border-radius: 1em;
         background: #feca65;
-        margin-top: -200px;
+        /*top: 100px;*/
+        /*left: 50%;*/
+        /*transform: translate(-50%, -50%);*/
+        /*margin-top: -400px;*/
         /*background: hsla(0, 0%, 100%, .01)*/
     }
     h2 {
