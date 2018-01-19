@@ -3,8 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueModal from '@xunlei/vue-modal'
 
-Vue.config.productionTip = false
+// import css
+import '@xunlei/vue-modal/src/vue-modal.css'
+Vue.use(VueModal);
+
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({

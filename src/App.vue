@@ -12,15 +12,7 @@ export default {
 </script>
 
 <style>
-  html {
-      height: 100%;
-  }
-  body {
-    height: 100%;
-      background-color: #ccc;
-    /*background-image: radial-gradient(at top right, #B7B6BB 0%, #E8EAE9 100%);*/
-    /*background-repeat: no-repeat;*/
-  }
+
   * {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -32,7 +24,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  padding-top: 60px;
 
 }
 </style>

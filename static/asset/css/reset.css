@@ -1,5 +1,8 @@
 @CHARSET "UTF-8";
-body {margin:0;padding:0;background:#f0f0f0;font-size:16px;font-family:微软雅黑,Verdana,Geneva,sans-serif;}
+body {margin:0;padding:0;background:#f0f0f0;font-size:16px;font-family:微软雅黑,Verdana,Geneva,sans-serif;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;}
 p,h1,h2,h3,h4,ul,li,a,table,tr,td,th,div,b {margin:0;padding:0;}
 table {border-collapse:collapse;}
 input, select {vertical-align:middle;margin:0;padding:0;}
@@ -8,5 +11,19 @@ a {text-decoration:none;color:#069;outline-style:none;cursor: pointer}
 a:hover {color:#07f;}
 em {font-style:normal;color:#444;}
 
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    background-image: linear-gradient(-180deg, #EBEBEB 0%, #DCDDDF 48%, #C4C5C7 99%);
+    /*background-image: radial-gradient(at top right, #B7B6BB 0%, #E8EAE9 100%);*/
+    /*background-repeat: no-repeat;*/
+}
+
+a#ccc {
+ color: #fdb101;
+ color: #ac6101;
+}
 /*去除抖动*/
 body { margin-left: calc(100vw - 100%); }
