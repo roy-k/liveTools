@@ -268,14 +268,14 @@ const awards= [
         display: block;
         width: 70px;
         height: 70px;
-        background: url(/static/asset/image/clock.png) no-repeat center;
+        background: url(../../../static/asset/image/clock.png) no-repeat center;
         background-size: 35px;
     }
     .logo_eng {
         display: block;
         width: 150px;
         height: 81px;
-        background: url(/static/asset/image/logo_eng.png) no-repeat;
+        background: url(../../../static/asset/image/logo_eng.png) no-repeat;
     }
     .modal-mask {
         align-items: flex-start;
