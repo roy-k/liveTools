@@ -6,7 +6,7 @@ import luckyWheel from 'page/luckyWheel/luckyWheel'
 export default [
     {
         path: '/luckyWheel',
-        name: 'luckyWheel',
+        name: '大转盘',
         component: luckyWheel
     }
 ]

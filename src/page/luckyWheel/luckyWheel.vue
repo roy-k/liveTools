@@ -5,7 +5,8 @@
             <a href="http://moshou.qq.com/" class="logo_eng"></a>
         </div>
         <div style="position: absolute; right: 10px; top: 10px">
-            <a class="clock" title="使用秒表"></a>
+            <router-link class="back" to="/"></router-link>
+            <!--<a class="clock" title="使用秒表"></a>-->
         </div>
         <vue-modal
             v-model="showModal"
@@ -264,11 +265,11 @@ const awards= [
 </script>
 
 <style scoped>
-    .clock {
+    .back {
         display: block;
         width: 70px;
         height: 70px;
-        background: url(../../../static/asset/image/clock.png) no-repeat center;
+        background: url(../../../static/asset/image/back.png) no-repeat center;
         background-size: 35px;
     }
     .logo_eng {
@@ -305,12 +306,13 @@ const awards= [
     }
     h1 {
         display: block;
-        font-size: 2em;
-        -webkit-margin-before: 0.67em;
-        -webkit-margin-after: 0.67em;
-        -webkit-margin-start: 0px;
-        -webkit-margin-end: 0px;
+        font-size: 2.5em;
+        /*-webkit-margin-before: 0.67em;*/
+        /*-webkit-margin-after: 0.67em;*/
+        /*-webkit-margin-start: 0px;*/
+        /*-webkit-margin-end: 0px;*/
         font-weight: bold;
+        padding: 10px;
         color: #f60202;
         font-family: Open Sans,sans-serif;
     }

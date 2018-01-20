@@ -2,8 +2,8 @@ import wordCards from 'page/japanese/wordCards.vue'
 
 export default [
   {
-    path: '/japanese/wordCards',
-    name: 'wordCards',
+    path: '/wordCards',
+    name: '假名卡',
     component: wordCards
   }
 ]

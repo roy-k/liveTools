@@ -4,7 +4,7 @@
       <hr/>
         <ul>
           <li v-for="router in routers">
-            <router-link to="japanese/wordCards">wordCards</router-link>
+            <router-link :to="router.path">{{router.name}}</router-link>
           </li>
         </ul>
 
@@ -12,16 +12,13 @@
 </template>
 
 <script>
+    import routers from '../router/merge'
+
     export default {
         name: 'index',
         data() {
           return {
-              routers: [
-                {
-                  name: '',
-                  path: '',
-                }
-              ]
+              routers,
             }
         },
         methods: {
@@ -39,13 +36,14 @@
   }
   ul {
     list-style-type: none;
-    padding: 0;
-    width: 90px;
+    padding-top: 100px;
+    /*width: 90px;*/
     margin: 0 auto;
   }
   li {
-    display: inline-block;
-    margin: 0 10px;
+    /*display: inline-block;*/
+    margin: 20px;
+      font-size: 32px;
   }
   a {
     color: #42b983;

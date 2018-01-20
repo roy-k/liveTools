@@ -24,4 +24,5 @@
 
 3. 目录自动化
 
-4.
+4./root/apps/liveTools/dist
+

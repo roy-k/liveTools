@@ -12,6 +12,7 @@ canvas
 
 3. 自定义
 
+4. history模式
 
 秒表:
 http://www.ip138.com/miaobiao/
