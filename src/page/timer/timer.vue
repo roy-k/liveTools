@@ -16,7 +16,7 @@
             浏览器版本过低, 不支持canvas
         </canvas>
 
-        <div class="noselect">请使用 空格 / 鼠标点击</div>
+        <div class="noselect botS">请使用 空格 / 鼠标点击</div>
 
         <div class="sider" @mouseup.stop="empty">
             <SwitchBar label="倒计时" v-model="isCountDown"></SwitchBar>
@@ -49,8 +49,8 @@
         data() {
             return {
                 isCountDown: true,
-                setMin: '0',
-                setSec: '30',
+                setMin: '2',
+                setSec: '0',
                 showModal: false,
                 canvas: null,
                 context: null,
@@ -157,6 +157,7 @@
                 } else {
                     past = this.endM - new Date().getTime();
                     if(past <= 0) {
+                        this.time = '00: 00: 00';
                         this.stop();
                         return;
                     }
@@ -218,6 +219,12 @@
 </script>
 
 <style scoped>
+    canvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
     .back {
         display: block;
         width: 70px;
@@ -307,8 +314,14 @@
     .sider {
         position: absolute;
         height: 200px;
-        right: 10px;
+        right: 30px;
         bottom: 0px;
         /*margin-top: 100px;*/
+    }
+    .botS {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 </style>

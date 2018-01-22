@@ -22,7 +22,7 @@
             浏览器版本过低, 不支持canvas
         </canvas>
 
-        <div class="noselect">请使用 空格 / 鼠标点击</div>
+        <div class="noselect botS">请使用 空格 / 鼠标点击</div>
 
 
     </div>
@@ -294,6 +294,12 @@ const awards= [
 </script>
 
 <style scoped>
+    canvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
     .back {
         display: block;
         width: 70px;
@@ -380,5 +386,11 @@ const awards= [
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+    }
+    .botS {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 </style>
