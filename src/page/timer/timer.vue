@@ -12,36 +12,79 @@
         <!--<div>-->
             <!--<p style="text-align:center;font-size: 40px;">{{time}}</p>-->
         <!--</div>-->
-        <canvas id="canvas" width="800" height="800">
+        <canvas id="canvas" width="800" height="300">
             浏览器版本过低, 不支持canvas
         </canvas>
 
         <div class="noselect">请使用 空格 / 鼠标点击</div>
 
+        <div class="sider" @mouseup.stop="empty">
+            <SwitchBar label="倒计时" v-model="isCountDown"></SwitchBar>
+            <div v-show="isCountDown" style="margin: 15px 0;overflow: hidden;">
+                <Vselect v-model="setMin" :options="minOptions" style="float:left;width: 60px;"></Vselect>
+                <span style="float: right;line-height: 32px;">分</span>
+            </div>
+            <div v-show="isCountDown" style="margin: 15px 0;overflow: hidden;">
+                <Vselect v-model="setSec" :options="minOptions" style="float:left;width: 60px;"></Vselect>
+                <span style="float: right;line-height: 32px;">秒</span>
+            </div>
+            <!--<Vselect v-model="setSec" :options="minOptions"></Vselect>-->
+        </div>
 
     </div>
 </template>
 
 <script>
+    import SwitchBar from 'cops/switch/switch.vue';
+    import Vinput from 'cops/input/input.vue';
+    import Vselect from 'cops/select/select.vue';
 
     export default {
         name: 'lucky-wheel',
+        components: {
+            SwitchBar,
+            Vinput,
+            Vselect,
+        },
         data() {
             return {
+                isCountDown: true,
+                setMin: '0',
+                setSec: '30',
                 showModal: false,
                 canvas: null,
                 context: null,
                 time: '00: 00: 00',
+
                 startM: 0,
+                endM: 0,
+
                 fontSize: '100',
                 wordWidth: '',
                 CENTER_X: 0,  // todo
                 CENTER_Y: 0,
 
                 isStop: true,
+                hasReset: true,
+                minOptions: [],
             }
         },
+        watch: {
+            time: function() {
+                this.drawTime();
+            },
+            isCountDown: function() {
+                this.resetTime();
+            },
+            setMin: function() {
+                this.resetTime();
+            },
+            setSec: function() {
+                this.resetTime();
+            },
+        },
         methods: {
+            empty() {},
             init() {
                 let canvas = document.getElementById('canvas');
                 let context = canvas.getContext('2d');
@@ -63,8 +106,16 @@
                     this.handle();
                 }
             },
-            clear() {
-                this.time = '00: 00: 00';
+            resetTime() {
+                if(!this.isCountDown) {
+                    this.time = '00: 00: 00';
+                } else {
+                    let {setMin, setSec} = this;
+                    setMin = setMin > 9 ? setMin : '0' + setMin;
+                    setSec = setSec > 9 ? setSec : '0' + setSec;
+                    this.time = `${setMin}: ${setSec}: 00`;
+                }
+                this.hasReset = true;
             },
             drawTime(){
                 let {canvas, context, time, CENTER_X, CENTER_Y, fontSize, wordWidth} = this;
@@ -81,7 +132,7 @@
                     this.wordWidth = wordWidth;
                 }
 
-                context.fillText(time, CENTER_X - wordWidth / 2, CENTER_Y - 60);
+                context.fillText(time, CENTER_X - wordWidth / 2, CENTER_Y);
                 context.restore();
                 // -----
             },
@@ -98,7 +149,18 @@
             },
 
             changeValue() {
-                const past = new Date().getTime() - this.startM;
+                console.log('change');
+                let past = 0;
+                if(!this.isCountDown) {
+                    past = new Date().getTime() - this.startM;
+
+                } else {
+                    past = this.endM - new Date().getTime();
+                    if(past <= 0) {
+                        this.stop();
+                        return;
+                    }
+                }
                 // 除 10 100 60  60
                 const ms = past / 10 % 100;
                 const s = past / 1000 % 60;
@@ -114,24 +176,43 @@
                 return n;
             },
             handle() {
+                if(!this.hasReset) {
+                    this.resetTime();
+                    this.drawTime();
+                    this.hasReset = true;
+                    return;
+                }
+
                 this.isStop ? this.start() : this.stop();
             },
             start() {
-                if(this.isStop && this.time !== '00: 00: 00') {
-                    this.time = '00: 00: 00';
-                    this.drawTime();
-                    return;
-                }
                 this.startM = new Date().getTime();
+                if(this.isCountDown) this.setEndTime();
                 this.isStop = false;
                 this.refreshTime();
             },
+            setEndTime() {
+                let {setMin, setSec} = this;
+                let now = new Date().getTime();
+                let span = parseInt(setMin) * 60 * 1000 + parseInt(setSec) * 1000;
+                this.endM = now + span;
+            },
             stop() {
                 this.isStop = true;
+                this.hasReset = false;
             },
         },
         mounted() {
+            this.resetTime();
             this.init();
+        },
+        created() {
+            this.minOptions = Array(60).fill(1).map((v, i) => {
+                return {
+                    label: i,
+                    value: i,
+                }
+            })
         }
     };
 </script>
@@ -222,5 +303,12 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+    }
+    .sider {
+        position: absolute;
+        height: 200px;
+        right: 10px;
+        bottom: 0px;
+        /*margin-top: 100px;*/
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h1>目录</h1>
+      <h1>导航</h1>
       <hr/>
         <ul>
           <li v-for="router in routers">

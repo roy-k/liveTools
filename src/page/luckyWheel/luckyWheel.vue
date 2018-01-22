@@ -14,11 +14,11 @@
         >
             <div class="modal-4">
                 <!--<h2>Congratulations 😊</h2>-->
-                <h1>{{showWords}}   😊</h1>
+                <h1>{{showWords}}</h1>
                 <!--<a @click="hideModal" class="button red">close</a>-->
             </div>
         </vue-modal>
-        <canvas id="canvas" width="800" height="800">
+        <canvas id="canvas" :width="canvasSize" :height="canvasSize">
             浏览器版本过低, 不支持canvas
         </canvas>
 
@@ -33,10 +33,10 @@
 // const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保时捷911', '火星7日游'];
 const awards= [
     {num: 688, prob: 0.15, color: '#FF9E5E'},
-    {num: 188, prob: 0.1,  color: '#ff86b5'},
-    {num: 888, prob: 0.15, color: '#FD5757'},
+    {num: 188, prob: 0.1,  color: '#da6d98'},
+    {num: 888, prob: 0.15, color: '#6d70ff'},
     {num: 1888, prob: 0.5, color: '#FF6766'},
-    {num: 388, prob: 0.1,  color: '#ff6e37'},
+    {num: 388, prob: 0.1,  color: '#43af29'},
     ];
 
 
@@ -49,13 +49,16 @@ const awards= [
                 context: null,
                 showWords: '',
 
+                canvasSize: 600,
                 OUTSIDE_RADIUAS: 300,   // 转盘的半径
                 INSIDE_RADIUAS: 0,      // 用于非零环绕原则的内圆半径
                 TEXT_RADIUAS: 210,      // 转盘内文字的半径
 
                 POINTER_RADIUAS: 70,
 
-                CENTER_X: 0,  // todo
+                awordWordSize: '',
+
+                CENTER_X: 0,
                 CENTER_Y: 0,
 
                 awards,
@@ -77,21 +80,38 @@ const awards= [
             }
         },
         methods: {
+            setSize() {
+                let windowHeight = window.innerHeight;
+                this.canvasSize = Math.floor(windowHeight * 7 / 10);
+                this.OUTSIDE_RADIUAS = Math.floor(this.canvasSize / 2 * 9 / 10);
+                this.TEXT_RADIUAS = Math.floor(this.OUTSIDE_RADIUAS * 6 / 10);
+                this.POINTER_RADIUAS = Math.floor(this.TEXT_RADIUAS * 6 / 10);
+            },
             init() {
-                let canvas = document.getElementById('canvas');
-                let context = canvas.getContext('2d');
-                if(!canvas || !context) {
-                    alert('画布出错');
-                    return;
-                }
-                this.canvas = canvas;
-                this.context = context;
-                this.CENTER_X = canvas.width / 2;
-                this.CENTER_Y = canvas.height / 2;
-                this.drawRouletteWheel();
-
+                this.setSize();
+                this.$nextTick(() => {
+                    let canvas = document.getElementById('canvas');
+                    let context = canvas.getContext('2d');
+                    if(!canvas || !context) {
+                        alert('画布出错');
+                        return;
+                    }
+                    this.canvas = canvas;
+                    this.context = context;
+                    this.CENTER_X = canvas.width / 2;
+                    this.CENTER_Y = canvas.height / 2;
+                    console.log('resize');
+                    this.drawRouletteWheel();
+                })
+            },
+            bindEvent(){
                 window.addEventListener('keyup', this.eventHandler);
                 window.addEventListener('mouseup', this.handle);
+                window.addEventListener('resize', this.init);
+            },
+            resize() {
+                this.setSize();
+                // this.init();
             },
             eventHandler(e) {
                 if(e.keyCode === 32) {
@@ -142,7 +162,7 @@ const awards= [
                 context.save();
                 context.beginPath();
                 context.moveTo(CENTER_X, CENTER_Y);
-                context.lineTo(CENTER_X, CENTER_Y - POINTER_RADIUAS - 30);
+                context.lineTo(CENTER_X, CENTER_Y - POINTER_RADIUAS * 1.6);
                 context.lineTo(CENTER_X - POINTER_RADIUAS, CENTER_Y);
                 context.closePath();
                 context.fillStyle = '#fff790';
@@ -152,7 +172,7 @@ const awards= [
                 context.save();
                 context.beginPath();
                 context.moveTo(CENTER_X, CENTER_Y);
-                context.lineTo(CENTER_X, CENTER_Y - POINTER_RADIUAS - 30);
+                context.lineTo(CENTER_X, CENTER_Y - POINTER_RADIUAS * 1.6);
                 context.lineTo(CENTER_X + POINTER_RADIUAS, CENTER_Y);
                 context.closePath();
                 context.fillStyle = '#feca65';
@@ -168,7 +188,7 @@ const awards= [
 
                 context.save();
                 context.beginPath();
-                context.arc(CENTER_X, CENTER_Y, POINTER_RADIUAS - 15,  0, 2 * Math.PI);
+                context.arc(CENTER_X, CENTER_Y, POINTER_RADIUAS * 8 / 10,  0, 2 * Math.PI);
                 context.fillStyle = '#feca65';
                 context.fill();
                 context.restore();
@@ -256,11 +276,20 @@ const awards= [
         },
         mounted() {
             this.init();
-
+            this.bindEvent();
             this.$nextTick(() => {
 
             })
-        }
+        },
+        created() {
+            this.setSize();
+        },
+        beforeDestroy() {
+            console.log('remove');
+            window.removeEventListener('keyup', this.eventHandler);
+            window.removeEventListener('mouseup', this.handle);
+            window.removeEventListener('resize', this.init);
+        },
     };
 </script>
 
@@ -290,7 +319,7 @@ const awards= [
         /*top: 100px;*/
         /*left: 50%;*/
         /*transform: translate(-50%, -50%);*/
-        margin-top: 50px;
+        margin-top: 20px;
         /*background: hsla(0, 0%, 100%, .01)*/
     }
     h2 {
