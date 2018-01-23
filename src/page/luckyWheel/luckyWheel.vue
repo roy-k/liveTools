@@ -30,7 +30,6 @@
 
 <script>
 
-// const awards= [ '大保健', '话费10元', '话费20元', '话费30元', '保时捷911', '火星7日游'];
 const awards= [
     {num: 688, prob: 0.15, color: '#FF9E5E'},
     {num: 188, prob: 0.1,  color: '#da6d98'},
@@ -38,7 +37,6 @@ const awards= [
     {num: 1888, prob: 0.5, color: '#FF6766'},
     {num: 388, prob: 0.1,  color: '#43af29'},
     ];
-
 
     export default {
         name: 'lucky-wheel',

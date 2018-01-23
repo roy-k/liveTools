@@ -49,7 +49,7 @@
         data() {
             return {
                 isCountDown: true,
-                setMin: '2',
+                setMin: '1',
                 setSec: '0',
                 showModal: false,
                 canvas: null,
@@ -149,7 +149,7 @@
             },
 
             changeValue() {
-                console.log('change');
+                // console.log('change');
                 let past = 0;
                 if(!this.isCountDown) {
                     past = new Date().getTime() - this.startM;
@@ -214,7 +214,12 @@
                     value: i,
                 }
             })
-        }
+        },
+        beforeDestroy() {
+            console.log('remove');
+            window.removeEventListener('keyup', this.eventHandler);
+            window.removeEventListener('mouseup', this.handle);
+        },
     };
 </script>
 
