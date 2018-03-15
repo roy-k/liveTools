@@ -7,12 +7,11 @@ import indexView from 'page/index.vue'
 Vue.use(Router);
 
 export default new Router({
-  routes: [
-      {
-          path: '/',
-          name: 'index',
-          component: indexView
-      },
-      ...routes,
+    routes: [{
+            path: '/',
+            name: 'index',
+            component: indexView
+        },
+        ...routes,
     ]
 })
