@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- 8.9.0
+after_success:
+- ssh root@47.52.170.75 -p yyy 'cd /root/app2/liveTools && git pull && npm i && npm run build'
+before_install:
+- openssl aes-256-cbc -K $encrypted_f56b66a5a166_key -iv $encrypted_f56b66a5a166_iv
+  -in id_rsa_github.enc -out ~/.ssh/id_rsa_github -d
+- chmod 600 ~/.ssh/id_rsa_github
+- echo -e "Host 47.52.170.75\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
