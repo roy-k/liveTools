@@ -52,9 +52,9 @@
                 amount: 46,
                 showNum: 1,
 
-                random: false,
+                random: true,
                 showLow: true,
-                showCap: false,
+                showCap: true,
                 showPro: true,
 
                 loop: true,
