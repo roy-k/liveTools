@@ -5,5 +5,5 @@ import Rtime from './timer/timer'
 export default [
     ...Rlucky,
     ...Rtime,
-    // ...Rjapan,
+    ...Rjapan,
 ]
