@@ -24,7 +24,7 @@
                 <Vinput v-model="loopConfig.timeGap" label="切换时间" :wid="80"></Vinput>
 
 
-                <!--<SwitchBar label="暂停" v-model="loopConfig.loop"></SwitchBar>-->
+                <SwitchBar label="暂停" v-model="loopConfig.loop"></SwitchBar>
                 <!--<SwitchBar label="自动切换" v-model="loopConfig.random"></SwitchBar>-->
             </div>
             <!--<span class="side-bar-control" @click="toggleSideBar">{{showSiderBar ? '隐藏侧边栏' :'显示侧边栏'}}</span>-->
