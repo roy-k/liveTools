@@ -55,7 +55,7 @@
                 random: true,
                 showLow: true,
                 showCap: true,
-                showPro: true,
+                showPro: false,
 
                 loop: true,
                 timeGap: 5000,

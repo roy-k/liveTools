@@ -5,9 +5,13 @@ import App from './App'
 import router from './router'
 import VueModal from '@xunlei/vue-modal'
 
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+
 // import css
 import '@xunlei/vue-modal/src/vue-modal.css'
 Vue.use(VueModal);
+Vue.use(iView);
 
 Vue.config.productionTip = false;
 
