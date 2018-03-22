@@ -50,7 +50,7 @@
                     token: '22222',
                     name: 'img',
                 },
-                url: 'http://localhost:3001/api/upload/picture'
+                url: '/api/upload/picture'
             }
         },
         watch: {
