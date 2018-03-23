@@ -3,12 +3,14 @@
     <div class="layout">
         <Layout>
             <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
-                <Menu :active-name="tab" theme="dark" width="auto" :class="menuitemClasses">
-                    <MenuItem name="upload" @click="toggleTab('upload')">
+                <Menu
+                    @on-select="toggleTab" :active-name="tab"
+                    theme="dark" width="auto" :class="menuitemClasses">
+                    <MenuItem name="upload">
                         <Icon type="ios-navigate"></Icon>
                         <span>图片上传</span>
                     </MenuItem>
-                    <MenuItem name="list" @click="toggleTab('list')">
+                    <MenuItem name="list">
                         <Icon type="search"></Icon>
                         <span>图片管理</span>
                     </MenuItem>
@@ -18,11 +20,14 @@
             <Layout>
                 <Header class="layout-header-bar"></Header>
                 <Content :style="{margin: '20px', background: '#fff', minHeight: '220px'}">
-                    <div v-if="tab==='upload'">
-                        <Upload></Upload>
+                    <div v-if="tab==='upload'" style="position: relative;">
+
+
+                            <UploadFile></UploadFile>
+
                     </div>
                     <div v-if="tab==='list'">
-                        list
+                        <ListView></ListView>
                     </div>
                 </Content>
             </Layout>
@@ -30,15 +35,19 @@
     </div>
 </template>
 <script>
+    import UploadFile from './upload'
+    import ListView from './list'
 
-    import Upload from './upload'
+
 
     export default {
         data () {
             return {
                 tab: 'upload',
-                isCollapsed: false
+                isCollapsed: false,
             };
+        },
+        created() {
         },
         computed: {
             menuitemClasses: function () {
@@ -50,15 +59,20 @@
         },
         methods: {
             toggleTab(tab) {
+                console.log('tab', tab);
                 this.tab = tab;
             },
+
         },
         components:{
-            Upload,
+            UploadFile,
+            ListView,
         }
     }
 </script>
 <style scoped>
+
+
     .layout{
         border: 1px solid #d7dde4;
         background: #f5f7f9;
