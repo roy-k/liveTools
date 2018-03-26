@@ -26,7 +26,7 @@
                 <Upload
                     ref="upload"
                     :show-upload-list="false"
-                    :default-file-list="uploadList"
+                    :default-file-list="defaultList"
                     :on-success="handleSuccess"
                     :format="['jpg','jpeg','png']"
                     :on-format-error="handleFormatError"
@@ -46,12 +46,13 @@
                         <div v-if="item.status === 'finished'">
                             <img :src="item.url">
                             <div class="demo-upload-list-cover">
-                                <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                                <Icon type="ios-eye-outline" @click.native="handleView(item.originalName)"></Icon>
+                                <Icon type="ios-trash-outline" @click.native="delItem(item)"></Icon>
                             </div>
-                            <span>{{item.name}} :</span>
+                            <span>{{item.originalName}} :</span>
                             <span>{{item.url}}</span>
                             <Icon style="cursor: pointer;vertical-align: -3px;" type="clipboard" size="28" @click.native="copyUrl(item.url)"></Icon>
+                            <!--<Icon style="cursor: pointer;vertical-align: -3px;" type="android-delete" size="28" @click.native="delItem(item)"></Icon>-->
                         </div>
                         <div v-else>
                             <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
@@ -68,7 +69,7 @@
 
 <script>
     import axios from 'axios'
-    import {getFileTags} from '../../api/images'
+    import {getFileTags, deleteFiles} from '../../api/images'
 
     export default {
         name: 'images',
@@ -122,6 +123,35 @@
             copyUrl(url) {
                 console.log(url);
             },
+            delItem(item) {
+                const path = item.url.split('/').slice(-2).join('/');
+                // console.log(path);
+                deleteFiles(path).then((res) => {
+                    console.log(res);
+                    if(res.status === 200) {
+                        this.uiSuccess('操作成功', '删除图片成功');
+                        this.handleRemove(item);
+                    } else {
+                        this.$Notice.error({
+                            title: '操作失败',
+                            desc: res.data,
+                        })
+                    }
+                })
+            },
+            uiSuccess(title, desc) {
+                this.$Notice.success({
+                    title,
+                    desc,
+                    // render: h => {
+                    //     return h('span', [
+                    //         'This is created by ',
+                    //         h('a', 'render'),
+                    //         ' function'
+                    //     ])
+                    // }
+                });
+            },
             handleView (name) {
                 this.imgName = name;
                 this.visible = true;
@@ -131,14 +161,14 @@
                 this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
             },
             handleSuccess (res, file, fileList) {
-                console.log('res', res);
-                console.log('file', file);
-                console.log('fileList', fileList);
+                // console.log('res', res);
+                // console.log('file', file);
+                // console.log('fileList', fileList);
                 if(res.success) {
-                    file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                    // file.url = res.data.url;
-                    file.name = res.data.originalName;
-                    this.uploadList.push(file);
+                    // file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+                    file.url = res.data.url;
+                    file.originalName = res.data.originalName;
+                    file.name = res.data.name;
                 }
             },
             handleFormatError (file) {

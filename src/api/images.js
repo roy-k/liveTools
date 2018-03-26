@@ -14,9 +14,14 @@ const getDirFiles = function(dir) {
     return axios.get(`/api/getFiles/${dir}`)
 };
 
+const deleteFiles = function(fileName) {
+    return axios.delete(`/api/delFile/${fileName}`)
+};
+
 export {
     getFileTags,
     getDirFiles,
+    deleteFiles,
 };
 
 // 2. 生成分类选择数组
