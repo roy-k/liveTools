@@ -149,12 +149,11 @@
                 deleteFiles(path).then((res) => {
                     console.log(res);
                     if (res.status === 200) {
-                        this.uiSuccess('操作成功', '删除图片成功');
                         this.$Notice.success({
                             title: '操作成功',
                             desc: '删除图片成功',
                         });
-                        this.handleRemove(item);
+                        this.queryData();
                     } else {
                         this.$Notice.error({
                             title: '操作失败',
