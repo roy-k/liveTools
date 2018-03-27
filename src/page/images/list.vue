@@ -50,6 +50,7 @@
                     {
                         title: 'No',
                         key: 'index',
+                        width: 100,
                     },
                     {
                         title: '预览',
@@ -79,6 +80,7 @@
                     {
                         title: '地址',
                         key: 'address',
+                        width: 500,
                     },
                     {
                         title: '操作',
@@ -140,6 +142,11 @@
                         };
                     });
                     // console.log('res', res);
+                }, (err) => {
+                    this.$Notice.error({
+                        title: '查询错误',
+                        desc: err
+                    })
                 });
             },
             deleteImg({address}) {
